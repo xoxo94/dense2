@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文字加密</title>
+    <script src="/login/jquery.min.js"></script>
+    <link rel="stylesheet" href="/login/layui/css/layui.css">
+    <script src="/login/layui/layui.js"></script>
+</head>
+<body>
+
+<div  style="margin: 0 auto;width: 35%;margin-top: 5%;">
+<textarea placeholder="请输入明文"  id="valueText" onchange="user.text(this.value)" style="height: 150px;" class="layui-textarea"></textarea>
+<textarea placeholder="请输入密文"  id="valueDense"  onchange="user.dense(this.value)" style="height: 150px;margin-top: 35px" class="layui-textarea"></textarea>
+</div>
+</body>
+<script>
+
+ var user={
+     text:function (value) {
+
+         var  content= value.replace(/\n/g,';')
+         $.ajax({
+             type: "POST",
+             url: "/user/txt",
+             data: {txt:content},
+             success: function(ret){
+                 if(ret.code==false){
+                     layui.use('layer', function(){
+                         var layer = layui.layer;
+                         layer.msg(ret.msg);
+                     });
+                 }else{
+                     $('#valueDense').val(ret.data);
+                 }
+             }
+         });
+
+
+     },
+     dense:function (value) {
+         $.ajax({
+             type: "POST",
+             url: "/user/see",
+             data: {txt:value},
+             success: function(ret){
+                 if(ret.code==false){
+                     layui.use('layer', function(){
+                         var layer = layui.layer;
+                         layer.msg(ret.msg);
+                     });
+                 }else{
+                    var  text='';
+
+                     for (i = 0; i < (ret.data).length; i++) {
+                             text+=(ret.data[i])+'\n'
+                     }
+                     if(text==''){ return;}
+                     $('#valueText').val(text);
+                 }
+             }
+         });
+     }
+
+ }
+
+</script>
