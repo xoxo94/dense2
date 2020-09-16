@@ -33,6 +33,11 @@ class DefaultController extends BaseController
      */
     public function indexAction(Request $request)
     {
+
+        file_put_contents('../var/logs/ip.log','['.date('Y-m-d H:i:s').']'.$this->getIp().PHP_EOL,FILE_APPEND);
+
+        file_put_contents('../var/logs/ip.log','['.date('Y-m-d H:i:s').']'.$request->getClientIp().PHP_EOL,FILE_APPEND);
+
         $session = ($request->getSession());
         if ($session->get('loginuser')) {
             return $this->render('Default/dense.html.twig');
