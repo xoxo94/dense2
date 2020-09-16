@@ -34,7 +34,7 @@ class DefaultController extends BaseController
     public function indexAction(Request $request)
     {
 
-        var_dump($request->getClientIp().'====>'.$this->getIp());
+        var_dump($request->getClientIp().'====>'.$this->getIp());exit;
 
         file_put_contents('../var/logs/ip.log','['.date('Y-m-d H:i:s').']'.$this->getIp().PHP_EOL,FILE_APPEND);
 
